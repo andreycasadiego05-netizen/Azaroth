@@ -1651,7 +1651,7 @@
   for(i=others.length-1;i>0;i--) {
   j=Math.floor(Math.random()*(i+1));var tmp=others[i];others[i]=others[j];others[j]=tmp
   }
-  var HP=Math.max(3,Math.min(14,Math.round(N/4)+2));
+  var HP=Math.max(3,Math.min(16.5,Math.round(N/4)+2));
   var K= {name:dn[ki],x:HUB.x,y:HUB.y,r:R+3,hp:HP,max:HP,look:0,path:[],house:-1,hit:0,col:'#ff3b30',alive:true};
   others.forEach(function(idx,q) {
   var hi=q%HOUSES.length,h=HOUSES[hi],x,y,tries=0,ok;
