@@ -20,6 +20,8 @@ LIMIT 1;
   - **Pairs:** builds groups of 2 (or any size you set) from all the names.
 - People who were already picked are not repeated, and you can return them to the draw with the **↺** button.
 - Names are saved in the browser (`localStorage`).
+- Four visual styles for the reveal: **Glow** (a light sweeps across the names), **Wheel** (a roulette wheel), **Slots** (a slot-machine reel), and **Radar** (a sweeping radar scan). The result is decided internally at random; the style only changes how it is shown.
+- Names are auto-capitalized (for example `JOAN SEBASTIAN BLANCO` becomes `Joan Sebastian Blanco`).
 - Automatic light and dark theme.
 
 ## Name format

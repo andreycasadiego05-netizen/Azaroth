@@ -84,6 +84,11 @@ input[type=number]:focus-visible{outline:3px solid var(--org);outline-offset:1px
 .foot{grid-column:1/-1;background:transparent;text-align:center;color:var(--mute);padding:10px}
 .foot b{color:var(--ink)}
 .dot{display:inline-block;width:.15em;height:.15em;border-radius:50%;background:var(--org);margin-left:.05em}
+.stage{background:var(--chip);border-radius:22px;padding:14px}
+.stage canvas{display:none;width:100%;max-width:340px;aspect-ratio:1;margin:0 auto}
+.reel{display:none;height:186px;overflow:hidden;border-radius:16px;background:var(--tile);text-align:center}
+.reel .r{height:62px;line-height:62px;font-size:1.2rem;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 12px}
+.reel .r.c{font-size:1.65rem;font-weight:800;color:var(--ink);background:var(--org2)}
 </style>
 </head>
 <body>
@@ -119,6 +124,7 @@ You can also separate them with commas or semicolons:
 <h2>Run query</h2>
 <div class="seg" role="group" aria-label="Draw mode"><button id="m-uno" aria-pressed="true">One</button><button id="m-varios" aria-pressed="false">Several</button><button id="m-parejas" aria-pressed="false">Pairs</button></div>
 <div class="row qrow" id="qrow" style="display:none"><label for="qty" id="qlab">How many?</label><input type="number" id="qty" min="1" max="99" value="3"><small id="qhint"></small></div>
+<div class="seg" role="group" aria-label="Visual style"><button id="t-glow" aria-pressed="true">Glow</button><button id="t-wheel" aria-pressed="false">Wheel</button><button id="t-slots" aria-pressed="false">Slots</button><button id="t-radar" aria-pressed="false">Radar</button></div>
 <pre class="qbox"><span class="k">SELECT</span> name
 <span class="k">FROM</span> students
 <span class="k">WHERE</span> already_picked = <span class="f" id="w">0</span>
@@ -126,6 +132,7 @@ You can also separate them with commas or semicolons:
 <span id="lim"><span class="k">LIMIT</span> 1;</span></pre>
 <label class="chk"><input type="checkbox" id="norep" checked> Don't repeat people already picked</label>
 <button class="go" id="go">Run query</button>
+<div class="stage" id="stage" style="display:none"><canvas id="cv" aria-label="Animated draw"></canvas><div class="reel" id="reel"></div></div>
 <div class="res" aria-live="polite">
 <div class="big" id="big" style="color:var(--mute)">Not run yet</div>
 <div class="meta" id="meta">Add names and press the button</div>
@@ -150,8 +157,14 @@ function save(){try{localStorage.setItem('sorteo-sql-v2',JSON.stringify({names:n
 function parse(t){
   return t.split(/[\n\r,;]+/).map(function(x){
     return x.replace(/^\s*(\d+\s*[.)\-:]|[-•*])\s*/,'').replace(/^["']|["']$/g,'').trim()
-  }).filter(Boolean);
+  }).filter(Boolean).map(tidy);
 }
+var SMALL={de:1,del:1,la:1,las:1,los:1,y:1,da:1,di:1,van:1,von:1};
+function tidy(n){return n.split(/\s+/).map(function(w,i){
+  if(!(/[A-ZÁÉÍÓÚÜÑ]/.test(w.slice(1))||w.charAt(0)!==w.charAt(0).toUpperCase()))return w;
+  var l=w.toLowerCase();if(i>0&&SMALL[l])return l;
+  return l.replace(/(^|['-])(\p{L})/gu,function(m,a,b){return a+b.toUpperCase()})}).join(' ')}
+var EXAMPLE=['ANDRES FELIPE RUEDA','Andrés Felipe JIménez Ramírez','Brayan Rafael Medina Madiedo','Brenda NIcol Carrillo Gonzalez','CARLOS MARIO VELASQUEZ ANGULO','Crisbely Maria Graterol Goitia','Duvan Steven Covilla Rolón','Exneider Alfonso Nava Archila','JHORMAN FABIAN PEÑALOZA SIERRA','JOAN SEBASTIAN BLANCO RUIZ','Javier Alfonso Suarez Duarte','Julio Ernesto Castaño Palacios','Kleiderson Jesús Salcedo RIco','Marilud Uribe Prada','RAUL FELIPE CALVO VIANCHA','Ricardo Jose Vargas Gamboa','SOFIA SALAZAR HERNANDEZ','Thomas Andrey Arevalo Casadiego','Valeria Lizcano Arenas','Yeimer Andres Torres Manrique','Yonder Daniel Maldonado Pabon','Zlatan Ricardo Villamizar Fajardo','alvaro andres angarita escobar','carlos said perez gutierrez','hamilton julian quiroga vera','keiler sebastian serrano rosales'];
 function render(){
   var c=$('cloud');c.innerHTML='';
   var total=Math.max(MIN,names.length);
@@ -169,10 +182,11 @@ function render(){
   }
   $('cnt').textContent=names.length+(names.length===1?' name':' names')+' · minimum '+MIN+' slots, no maximum'+(names.length<MIN?' · '+(MIN-names.length)+' free':'');
   updQ();
+  if(!holdStage)drawStage();
 }
 function det(){var n=parse($('ta').value).length;$('det').textContent=n+(n===1?' name detected':' names detected')}
 $('ta').oninput=det;
-$('demo').onclick=function(){$('ta').value='Emily Carter\nJames Miller\nSophia Reed\nDaniel Brooks\nOlivia Hayes';det()};
+$('demo').onclick=function(){$('ta').value=EXAMPLE.join('\n');det()};
 $('add').onclick=function(){
   var l=parse($('ta').value);if(!l.length){$('det').textContent='Enter at least one name';return}
   l.forEach(function(n){names.push({n:n,d:false})});
@@ -197,10 +211,10 @@ function setMode(m){
   $('qrow').style.display=m==='uno'?'none':'flex';
   if(m==='varios'){$('qlab').textContent='How many names to pick?';$('qty').value=3;$('qhint').textContent='Picked names are marked as picked.'}
   if(m==='parejas'){$('qlab').textContent='People per group';$('qty').value=2;$('qhint').textContent='Uses every name, even ones already picked. If someone is left over, they join a group.'}
-  updQ();
+  updQ();drawStage();
 }
 function mark(i,cls){
-  document.querySelectorAll('.chip.hit,.chip.win').forEach(function(o){o.classList.remove('hit','win')});
+  document.querySelectorAll('.chip.hit').forEach(function(o){o.classList.remove('hit')});
   $('c'+i).classList.add(cls);
 }
 function showHist(){
@@ -209,41 +223,107 @@ function showHist(){
   hist.forEach(function(x,j){if(j)h.appendChild(document.createTextNode(', '));var b=document.createElement('b');b.textContent=x;h.appendChild(b)});
 }
 function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+var theme='glow',wrot=0,bang=0,holdStage=false;
+var PAL=[['#00758f','#fff'],['#f29111','#0d2536'],['#0d2536','#fff'],['#4fb3c8','#0d2536'],['#f7b955','#0d2536'],['#2a5a73','#fff']],P2=Math.PI*2;
+function eligible(){var nr=$('norep').checked,p=[];names.forEach(function(r,i){if(mode==='parejas'||!(nr&&r.d))p.push(i)});return p}
+function cv2(){var c=$('cv'),r=window.devicePixelRatio||1,w=c.clientWidth||300;if(c.width!==Math.round(w*r)){c.width=Math.round(w*r);c.height=Math.round(w*r)}var x=c.getContext('2d');x.setTransform(r,0,0,r,0,0);x.clearRect(0,0,w,w);return{x:x,w:w}}
+function drawWheel(pool,rot,hl){
+  var o=cv2(),x=o.x,w=o.w,c=w/2,R=c-8,n=pool.length,sa=P2/(n||1);
+  if(!n){x.fillStyle='#8fa8b8';x.font='700 16px sans-serif';x.textAlign='center';x.fillText('No names in the wheel',c,c);return}
+  pool.forEach(function(idx,i){
+    var a0=rot+i*sa,pl=PAL[i%6];
+    x.beginPath();x.moveTo(c,c);x.arc(c,c,R,a0,a0+sa);x.closePath();x.fillStyle=pl[0];x.fill();
+    x.strokeStyle=hl===i?'#fff':'rgba(255,255,255,.7)';x.lineWidth=hl===i?4:(n>40?.4:1.5);x.stroke();
+    if(n<=40){x.save();x.translate(c,c);x.rotate(a0+sa/2);x.fillStyle=pl[1];x.font='700 '+Math.max(9,Math.min(14,R*sa*.5))+'px sans-serif';x.textAlign='right';x.textBaseline='middle';x.fillText(names[idx].n.split(' ')[0].slice(0,11),R-12,0);x.restore()}
+  });
+  x.beginPath();x.arc(c,c,16,0,P2);x.fillStyle='#fff';x.fill();x.strokeStyle='#0d2536';x.lineWidth=3;x.stroke();
+  x.beginPath();x.moveTo(c-12,1);x.lineTo(c+12,1);x.lineTo(c,30);x.closePath();x.fillStyle='#f29111';x.fill();x.strokeStyle='#0d2536';x.lineWidth=3;x.stroke();
+}
+function drawRadar(pool,ang,hl){
+  var o=cv2(),x=o.x,w=o.w,c=w/2,R=c-8,n=pool.length,i;
+  x.beginPath();x.arc(c,c,R,0,P2);x.fillStyle='#0c2f3f';x.fill();
+  x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=1;
+  [.33,.66,1].forEach(function(f){x.beginPath();x.arc(c,c,R*f,0,P2);x.stroke()});
+  x.beginPath();x.moveTo(c-R,c);x.lineTo(c+R,c);x.moveTo(c,c-R);x.lineTo(c,c+R);x.stroke();
+  x.beginPath();x.moveTo(c,c);x.arc(c,c,R,ang-.7,ang);x.closePath();x.fillStyle='rgba(242,145,17,.35)';x.fill();
+  x.beginPath();x.moveTo(c,c);x.lineTo(c+R*Math.cos(ang),c+R*Math.sin(ang));x.strokeStyle='#f29111';x.lineWidth=2.5;x.stroke();
+  for(i=0;i<n;i++){
+    var a=i*2.39996,r=R*.9*Math.sqrt((i+.5)/n),px=c+r*Math.cos(a),py=c+r*Math.sin(a),d=(((ang-a)%P2)+P2)%P2,b=d<1.6?1-d/1.6:0;
+    x.beginPath();x.arc(px,py,i===hl?7:3.5,0,P2);
+    x.fillStyle=i===hl?'#f29111':'rgba(255,255,255,'+(.25+.75*b)+')';x.fill();
+    if(i===hl){x.beginPath();x.arc(px,py,14,0,P2);x.strokeStyle='#f29111';x.lineWidth=2;x.stroke()}
+  }
+}
+function drawStage(){var p=eligible();if(theme==='wheel')drawWheel(p,wrot,-1);else if(theme==='radar')drawRadar(p,bang,-1);else if(theme==='slots'&&!busy){var r=$('reel');r.textContent='';['','Press Run query',''].forEach(function(t,j){r.appendChild(el('div','r'+(j===1?' c':''),t))})}}
+function setTheme(t){
+  theme=t;['glow','wheel','slots','radar'].forEach(function(x){$('t-'+x).setAttribute('aria-pressed',x===t?'true':'false')});
+  $('stage').style.display=t==='glow'?'none':'block';
+  $('cv').style.display=(t==='wheel'||t==='radar')?'block':'none';
+  $('reel').style.display=t==='slots'?'block':'none';
+  holdStage=false;drawStage();
+}
+function spin(from,to,dur,draw,done){var t0=performance.now();(function f(t){var p=Math.min(1,(t-t0)/dur);draw(from+(to-from)*(1-Math.pow(1-p,4)));if(p<1)requestAnimationFrame(f);else done()})(t0)}
+function sweep(t,pool,fast,frame,done){
+  var seq=[],p,l;
+  for(l=0;l<(fast?1:3);l++)pool.forEach(function(i){seq.push(i)});
+  for(p=0;p<=pool.indexOf(t);p++)seq.push(pool[p]);
+  seq=seq.slice(-Math.min(seq.length,fast?18:45));
+  var k=0;(function step(){
+    frame(seq,k);
+    if(k>=seq.length-1){done();return}
+    var left=seq.length-k,d=left<12?60+(12-left)*38:45;k++;setTimeout(step,d);
+  })();
+}
+function play(t,pool,fast,land){
+  var big=$('big'),ti=pool.indexOf(t);
+  if(theme==='wheel'){
+    var sa=P2/pool.length,tr=-Math.PI/2-(ti+.5)*sa,to=wrot+((((tr-wrot)%P2)+P2)%P2)+P2*(fast?3:6);
+    spin(wrot,to,fast?1600:4200,function(a){drawWheel(pool,a,-1)},function(){wrot=to%P2;drawWheel(pool,wrot,ti);land()});
+  }else if(theme==='radar'){
+    var at=ti*2.39996,to2=bang+((((at-bang)%P2)+P2)%P2)+P2*(fast?2:4);
+    spin(bang,to2,fast?1600:4200,function(a){drawRadar(pool,a,-1)},function(){bang=to2%P2;drawRadar(pool,bang,ti);land()});
+  }else if(theme==='slots'){
+    sweep(t,pool,fast,function(seq,k){
+      var r=$('reel');r.textContent='';
+      [k>0?seq[k-1]:pool[rnd(pool.length)],seq[k],k<seq.length-1?seq[k+1]:pool[rnd(pool.length)]].forEach(function(i,j){r.appendChild(el('div','r'+(j===1?' c tick':''),names[i].n))});
+    },land);
+  }else{
+    sweep(t,pool,fast,function(seq,k){
+      mark(seq[k],'hit');big.textContent=names[seq[k]].n;big.className='big';void big.offsetWidth;big.className='big tick';
+    },land);
+  }
+}
 function run(){
   if(busy)return;
-  var norep=$('norep').checked,pool=[],n=qty();
-  names.forEach(function(r,i){if(mode==='parejas'||!(norep&&r.d))pool.push(i)});
+  var pool=eligible(),n=qty();
   var big=$('big'),meta=$('meta'),multi=$('multi'),back=$('back');
   multi.textContent='';back.style.display='none';lastPicked=[];
+  document.querySelectorAll('.chip.win,.chip.hit').forEach(function(c){c.classList.remove('win','hit')});
   if(!pool.length){big.style.color='';big.textContent='0 rows';meta.textContent=names.length?'Everyone has been picked. Return someone with ↺ or press Reset turns.':'The table is empty. Add names first.';return}
   var picks=shuffle(pool.slice());
   if(mode==='uno')picks=picks.slice(0,1);
   if(mode==='varios')picks=picks.slice(0,Math.min(n,pool.length));
-  var target=picks[0],t0=performance.now();
+  var anims=mode==='varios'?picks.slice(0,5):[picks[0]],j=0,t0=performance.now();
   var still=matchMedia('(prefers-reduced-motion:reduce)').matches;
   busy=true;$('go').disabled=true;big.style.color='';big.className='big';
-  var seq=[],p;
-  for(var l=0;l<3;l++)pool.forEach(function(i){seq.push(i)});
-  for(p=0;p<=pool.indexOf(target);p++)seq.push(pool[p]);
-  var k=0;
+  function pill(x,num){var d=el('div','pill');d.appendChild(el('em','',num));d.appendChild(document.createTextNode(' '+names[x].n));multi.appendChild(d)}
   function finish(){
-    var sec=((performance.now()-t0)/1000).toFixed(2),summary,info;
+    var sec=((performance.now()-t0)/1000).toFixed(2),summary,info,target=picks[0];
     if(mode==='parejas'){
       var gs=n,ng=Math.max(1,Math.floor(picks.length/gs)),groups=[],i,left;
       for(i=0;i<ng;i++)groups.push(picks.slice(i*gs,(i+1)*gs));
       left=picks.slice(ng*gs);
-      left.forEach(function(x,j){groups[j%groups.length].push(x)});
-      groups.forEach(function(g,j){
+      left.forEach(function(x,q){groups[q%groups.length].push(x)});
+      groups.forEach(function(g,q){
         var d=el('div','grp'),nms=g.map(function(x){return names[x].n});
-        d.appendChild(el('small','',(gs===2?'Pair ':'Group ')+(j+1)+(g.length>gs?' (of '+g.length+')':'')));
+        d.appendChild(el('small','',(gs===2?'Pair ':'Group ')+(q+1)+(g.length>gs?' (of '+g.length+')':'')));
         d.appendChild(el('div','',nms.join(' + ')));
         multi.appendChild(d);hist.push(nms.join(' + '));
       });
       summary=groups.length+(gs===2?(groups.length===1?' pair':' pairs'):(groups.length===1?' group':' groups'));
       info=picks.length+' people · '+groups.length+' row(s) · '+sec+' sec';
     }else{
-      picks.forEach(function(x,j){names[x].d=true;hist.push(names[x].n);lastPicked.push(names[x]);
-        if(mode==='varios'){var d=el('div','pill');d.appendChild(el('em','',j+1));d.appendChild(document.createTextNode(' '+names[x].n));multi.appendChild(d)}});
+      picks.forEach(function(x,q){names[x].d=true;hist.push(names[x].n);lastPicked.push(names[x]);if(mode==='varios'&&q>=anims.length)pill(x,q+1)});
       save();
       summary=mode==='uno'?names[target].n:picks.length+' picked';
       info=picks.length+' row(s) returned · '+(mode==='uno'?'row '+(target+1)+' · ':'')+sec+' sec'+(mode==='varios'&&n>pool.length?' · only '+pool.length+' left':'');
@@ -252,21 +332,26 @@ function run(){
     }
     big.textContent=summary;big.className='big pop';meta.textContent=info;
     showHist();busy=false;$('go').disabled=false;
-    render();
-    picks.forEach(function(x){var c=$('c'+x);if(c)c.classList.add('win')});
+    holdStage=true;render();setTimeout(function(){holdStage=false},0);
+    if(mode!=='parejas')picks.forEach(function(x){var c=$('c'+x);if(c)c.classList.add('win')});
   }
-  function step(){
-    if(still||k>=seq.length-1){finish();return}
-    mark(seq[k],'hit');
-    big.textContent=names[seq[k]].n;big.className='big';void big.offsetWidth;big.className='big tick';
-    var left=seq.length-k,d=left<12?60+(12-left)*38:45;
-    k++;setTimeout(step,d);
+  function next(){
+    if(j>=anims.length){finish();return}
+    var t=anims[j],idx=j,fast=j>0;
+    function land(){
+      var c=$('c'+t);if(c){c.classList.remove('hit');c.classList.add('win')}
+      big.textContent=names[t].n;big.className='big pop';
+      if(mode==='varios')pill(t,idx+1);
+      j++;setTimeout(next,still?0:(j<anims.length?500:300));
+    }
+    if(still)land();else play(t,pool,fast,land);
   }
-  step();
+  next();
 }
 $('go').onclick=run;
 ['uno','varios','parejas'].forEach(function(m){$('m-'+m).onclick=function(){if(!busy)setMode(m)}});
 $('qty').oninput=updQ;
+['glow','wheel','slots','radar'].forEach(function(t){$('t-'+t).onclick=function(){if(!busy)setTheme(t)}});
 $('back').onclick=function(){
   lastPicked.forEach(function(r){r.d=false});lastPicked=[];
   $('back').style.display='none';$('meta').textContent+=' · returned to the draw';save();render();
