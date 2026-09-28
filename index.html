@@ -688,7 +688,7 @@
   You can also separate them with commas or semicolons:
   <pre>Emily Carter, James Miller, Sophia Reed</pre><small>Numbered lists (1. Emily, 2) James, - Sophia) work too: numbers and dashes are removed automatically. A .txt or .csv file uses the same format: names only, no headers.</small><div class="row"><button id="demo">Try the example</button></div></div><textarea id="ta" aria-label="Names to add" placeholder="Paste or type names here…"></textarea><div class="row"><button class="pri" id="add">Add to list</button><label class="file">Upload file<input type="file" id="fi" accept=".txt,.csv,text/plain,text/csv"></label><span class="det" id="det">0 names detected</span></div></section><section class="tile run"><h2>Run query</h2><div class="seg" role="group" aria-label="Draw mode"><button id="m-uno" aria-pressed="true">One</button><button id="m-varios" aria-pressed="false">Several</button><button id="m-parejas" aria-pressed="false">Pairs</button></div><div class="row qrow" id="qrow" style="display:none"><label for="qty" id="qlab">How many?</label><input type="number" id="qty" min="1" max="99" value="3"><small id="qhint"></small></div><div class="row" style="margin-top:0"><button class="pri" id="stbtn">Style</button><button id="snd">🔊 Sound on</button></div><pre class="qbox"><span class="k">SELECT</span> name
   <span class="k">FROM</span> students
-  <span class="k">WHERE</span> already_picked = <span class="f" id="w">0</span><span class="k">ORDER BY</span><span class="f">RAND()</span><span id="lim"><span class="k">LIMIT</span> 1;</span></pre><label class="chk"><input type="checkbox" id="norep" checked> Don't repeat people already picked</label><button class="go" id="go">Run query</button><div class="stage" id="stage" style="display:none"><canvas id="cv" aria-label="Animated draw"></canvas><div class="reel" id="reel"></div></div><div class="res" aria-live="polite"><div class="big" id="big" style="color:var(--mute)">Not run yet</div><div class="meta" id="meta">Add names and press the button</div><div class="multi" id="multi"></div><button id="back" style="display:none">Return to the draw</button></div><div class="hist" id="hist"></div></section><section class="tile games"><h2>Mini games</h2><p class="gnote" id="gnote" aria-live="polite"></p><button class="gcard" id="g-marble"><span class="em" aria-hidden="true">🏁</span><b>Marble Race</b><small>Every name becomes a marble (first name only). They tumble down a peg course and the first one over the line wins.</small></button><button class="gcard" id="g-arena"><span class="em" aria-hidden="true">🎯</span><b>Arena Hunt</b><small>A map full of little characters, one per name. Drive your own shooter and eliminate them one by one.</small></button></section><section class="tile all"><div class="head"><h2>Students table</h2><span id="cnt"></span></div><div class="cloud" id="cloud"></div><div class="row"><button id="reset">Reset turns</button><button id="clear">Clear list</button></div></section><footer class="tile foot">Created by <b>Andrey</b>, <b>Raul</b>, <b>Joan</b>, and <b>Andres R</b></footer></main><canvas id="fx" aria-hidden="true"></canvas><div class="pick" id="pick" style="display:none" role="dialog" aria-modal="true" aria-label="Choose a visual style"><div class="pbox"><div class="phead"><h2>Visual styles</h2><button id="pclose">Close</button></div><div class="pgrid" id="pgrid"></div></div></div><div class="gm" id="gm" style="display:none" role="dialog" aria-modal="true" aria-label="Mini game"><div class="gbox"><div class="ghead"><h2 id="gtitle"></h2><span class="ghud" id="ghud"></span><button class="pri" id="gagain">Restart</button><button id="gclose">Close</button></div><div class="gstage" id="gstage"><canvas id="gcv" tabindex="0" aria-label="Game area"></canvas></div><div class="gfoot" id="gfoot"></div></div></div><script>
+  <span class="k">WHERE</span> already_picked = <span class="f" id="w">0</span><span class="k">ORDER BY</span><span class="f">RAND()</span><span id="lim"><span class="k">LIMIT</span> 1;</span></pre><label class="chk"><input type="checkbox" id="norep" checked> Don't repeat people already picked</label><button class="go" id="go">Run query</button><div class="stage" id="stage" style="display:none"><canvas id="cv" aria-label="Animated draw"></canvas><div class="reel" id="reel"></div></div><div class="res" aria-live="polite"><div class="big" id="big" style="color:var(--mute)">Not run yet</div><div class="meta" id="meta">Add names and press the button</div><div class="multi" id="multi"></div><button id="back" style="display:none">Return to the draw</button></div><div class="hist" id="hist"></div></section><section class="tile games"><h2>Mini games</h2><p class="gnote" id="gnote" aria-live="polite"></p><button class="gcard" id="g-marble"><span class="em" aria-hidden="true">🏁</span><b>Marble Race</b><small>Every name becomes a marble (first name only). They tumble down a peg course and the first one over the line wins.</small></button><button class="gcard" id="g-arena"><span class="em" aria-hidden="true">🔪</span><b>Arena Hunt</b><small>A random name becomes the killer; everyone else splits into houses and fights back. First victim loses — if the killer falls, he loses. Fully automatic.</small></button></section><section class="tile all"><div class="head"><h2>Students table</h2><span id="cnt"></span></div><div class="cloud" id="cloud"></div><div class="row"><button id="reset">Reset turns</button><button id="clear">Clear list</button></div></section><footer class="tile foot">Created by <b>Andrey</b>, <b>Raul</b>, <b>Joan</b>, and <b>Andres R</b></footer></main><canvas id="fx" aria-hidden="true"></canvas><div class="pick" id="pick" style="display:none" role="dialog" aria-modal="true" aria-label="Choose a visual style"><div class="pbox"><div class="phead"><h2>Visual styles</h2><button id="pclose">Close</button></div><div class="pgrid" id="pgrid"></div></div></div><div class="gm" id="gm" style="display:none" role="dialog" aria-modal="true" aria-label="Mini game"><div class="gbox"><div class="ghead"><h2 id="gtitle"></h2><span class="ghud" id="ghud"></span><button class="pri" id="gagain">Restart</button><button id="gclose">Close</button></div><div class="gstage" id="gstage"><canvas id="gcv" tabindex="0" aria-label="Game area"></canvas></div><div class="gfoot" id="gfoot"></div></div></div><script>
   var MIN=26,names=[],hist=[],busy=false;
   try {
   var s=JSON.parse(localStorage.getItem('sorteo-sql-v2')||'null');if(s&&s.names)names=s.names
@@ -1313,24 +1313,35 @@
   var gm=$('gm'),gcv=$('gcv'),gx=gcv.getContext('2d'),gstage=$('gstage'),ghud=$('ghud'),gfoot=$('gfoot'),gtitle=$('gtitle'),gnote=$('gnote');
   var kind='',game=null,raf=0,lastT=0,acc=0,CW=300,CH=300,opener=null,keys={},hudTxt='',noteT=0;
   var ptr= {stick:null,aim:null,mouse:false,fire:false,msx:0,msy:0};
-  var HINT_ARENA='Move: WASD or arrows · Aim: mouse · Shoot: click or Space · Touch: left side moves, right side aims and shoots';
-  var HINT_MARBLE='Each marble is a name (first name only). The finish order shows up here.';
+  var HINT_ARENA='Automatic mode: a random killer hunts the houses. First victim loses; if the killer is shot down, he loses.';
+  var HINT_MARBLE='Each marble is a name (first name, plus the second one if the first repeats). The finish order shows up here.';
   function first(i) {
   return String(names[i].n).trim().split(/\s+/)[0]
+  }
+  function nk(t) {
+  return t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
   }
   function shortNames() {
   var w=names.map(function(r) {
   return String(r.n).trim().split(/\s+/)
   }
-  ),c= {};
-  w.forEach(function(a) {
-  var k=a[0].toLowerCase();c[k]=(c[k]||0)+1
+  ),out=w.map(function(a) {
+  return a[0]
+  }
+  ),k,i,cnt;
+  for(k=2;k<=8;k++) {
+  cnt= {};
+  out.forEach(function(t) {
+  var x=nk(t);cnt[x]=(cnt[x]||0)+1
   }
   );
-  return w.map(function(a) {
-  return c[a[0].toLowerCase()]>1&&a[1]?a[0]+' '+a[1].charAt(0).toUpperCase()+'.':a[0]
+  var again=false;
+  for(i=0;i<w.length;i++)if(cnt[nk(out[i])]>1&&w[i].length>=k) {
+  out[i]=w[i].slice(0,k).join(' ');again=true
   }
-  )
+  if(!again)break
+  }
+  return out
   }
   function fit() {
   var r=window.devicePixelRatio||1,w=gstage.clientWidth||300,h=gstage.clientHeight||300;
@@ -1381,6 +1392,7 @@
 
   /* ---------- Marble Race ---------- */
   function marbleGame() {
+  var SN=shortNames();
   var W=560,FIN=2520,H=2700,G=.12,MAXV=6,N=names.length,R=N>70?6:N>45?8:N>28?10:12;
   var pegs=[],segs=[],ms=[],order=[],state='count',steps=0,cnt=0,camY=0,lastClack=0,endT=0,leadName='',x,y,r,k;
   for(r=0,y=250;y<=800;y+=72,r++)for(x=(r%2?45:85);x<=W-45;x+=80)pegs.push( {
@@ -1418,7 +1430,7 @@
   )).forEach(function(i,q) {
   var c=q%cols,rw=Math.floor(q/cols);
   ms.push( {
-  i:i,name:first(i),x:x0+c*gap+(rw%2?gap/2:0),y:40+rw*gap,vx:(Math.random()-.5)*.6,vy:0,r:R,col:'hsl('+((i*137.508)%360)+',72%,56%)',done:false,t:0,ax:0,ay:0
+  i:i,name:SN[i],x:x0+c*gap+(rw%2?gap/2:0),y:40+rw*gap,vx:(Math.random()-.5)*.6,vy:0,r:R,col:'hsl('+((i*137.508)%360)+',72%,56%)',done:false,t:0,ax:0,ay:0
   }
   )
   }
@@ -1585,200 +1597,182 @@
 
   /* ---------- Arena Hunt ---------- */
   function arenaGame() {
-  var W=1200,H=760,N=names.length,R=N>60?10:N>35?12:15,dn=shortNames();
-  var walls=[ {
-  x:260,y:150,w:26,h:190
-  }
-  , {
-  x:260,y:430,w:26,h:190
-  }
-  , {
-  x:914,y:150,w:26,h:190
-  }
-  , {
-  x:914,y:430,w:26,h:190
-  }
-  , {
-  x:470,y:90,w:260,h:26
-  }
-  , {
-  x:470,y:644,w:260,h:26
-  }
-  , {
-  x:560,y:340,w:80,h:80
-  }
-  , {
-  x:420,y:250,w:26,h:90
-  }
-  , {
-  x:420,y:420,w:26,h:90
-  }
-  , {
-  x:754,y:250,w:26,h:90
-  }
-  , {
-  x:754,y:420,w:26,h:90
-  }
+  var W=1200,H=760,N=names.length,R=N>70?9:N>45?11:13,dn=shortNames(),T=20,G=48,HUB={x:600,y:380};
+  var HOUSES=[
+  {n:'Blue House',hue:205,x0:40,y0:40,x1:520,y1:340,side:'r',cy:190},
+  {n:'Green House',hue:145,x0:680,y0:40,x1:1160,y1:340,side:'l',cy:190},
+  {n:'Yellow House',hue:48,x0:40,y0:420,x1:520,y1:720,side:'r',cy:570},
+  {n:'Purple House',hue:275,x0:680,y0:420,x1:1160,y1:720,side:'l',cy:570}
   ];
-  var npcs=[],bul=[],parts=[],pops=[],out=[],steps=0,state='run',endT=0,camX=0,camY=0,sc=1,fresh=true,alive=N;
-  var pl= {
-  x:90,y:H/2,r:17,ang:0,cd:0,recoil:0
+  var walls=[],npcs=[],bul=[],parts=[],pops=[],steps=0,state='run',endT=0,msg='',msg2='',sc=1,ox=0,oy=0,i,j;
+  HOUSES.forEach(function(h) {
+  var sx=h.side==='r'?h.x1-T:h.x0,px=h.side==='r'?h.x0:h.x1-T;
+  walls.push( {x:h.x0,y:h.y0,w:h.x1-h.x0,h:T}, {x:h.x0,y:h.y1-T,w:h.x1-h.x0,h:T}, {x:px,y:h.y0,w:T,h:h.y1-h.y0},
+  {x:sx,y:h.y0,w:T,h:h.cy-G-h.y0}, {x:sx,y:h.cy+G,w:T,h:h.y1-h.cy-G});
+  h.in= {x0:h.x0+T,y0:h.y0+T,x1:h.x1-T,y1:h.y1-T};
+  h.dOut= {x:h.side==='r'?h.x1+26:h.x0-26,y:h.cy};
+  h.dIn= {x:h.side==='r'?h.x1-46:h.x0+46,y:h.cy};
+  h.mem=[];h.col='hsl('+h.hue+',80%,60%)'
   }
-  ;
+  );
   function free(x,y,r) {
-  for(var j=0;j<walls.length;j++) {
-  var w=walls[j],cx=Math.max(w.x,Math.min(x,w.x+w.w)),cy=Math.max(w.y,Math.min(y,w.y+w.h));
+  for(var q=0;q<walls.length;q++) {
+  var w=walls[q],cx=Math.max(w.x,Math.min(x,w.x+w.w)),cy=Math.max(w.y,Math.min(y,w.y+w.h));
   if((x-cx)*(x-cx)+(y-cy)*(y-cy)<r*r)return false
   }
   return true
   }
   function collide(o) {
   o.x=Math.max(o.r,Math.min(W-o.r,o.x));o.y=Math.max(o.r,Math.min(H-o.r,o.y));
-  for(var j=0;j<walls.length;j++) {
-  var w=walls[j],cx=Math.max(w.x,Math.min(o.x,w.x+w.w)),cy=Math.max(w.y,Math.min(o.y,w.y+w.h)),dx=o.x-cx,dy=o.y-cy,d2=dx*dx+dy*dy;
-  if(d2<o.r*o.r) {
-  if(d2>1e-6) {
+  for(var q=0;q<walls.length;q++) {
+  var w=walls[q],cx=Math.max(w.x,Math.min(o.x,w.x+w.w)),cy=Math.max(w.y,Math.min(o.y,w.y+w.h)),dx=o.x-cx,dy=o.y-cy,d2=dx*dx+dy*dy;
+  if(d2<o.r*o.r&&d2>1e-6) {
   var d=Math.sqrt(d2);o.x+=dx/d*(o.r-d);o.y+=dy/d*(o.r-d)
   }
-  else o.y=w.y-o.r
   }
   }
+  function los(ax,ay,bx,by) {
+  var d=Math.hypot(bx-ax,by-ay),n=Math.ceil(d/10),t;
+  for(var q=1;q<n;q++) {
+  t=q/n;if(!free(ax+(bx-ax)*t,ay+(by-ay)*t,2))return false
   }
-  names.forEach(function(_,i) {
-  var x,y,tries=0,ok;
+  return true
+  }
+  function burst(x,y,col,n,sp) {
+  for(var q=0;q<n;q++) {
+  var a=Math.random()*P2,v=(.3+Math.random())*sp;
+  parts.push( {x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:25+Math.random()*20,c:col,r:2+Math.random()*3}
+  )
+  }
+  }
+  /* random killer + the rest split into houses */
+  var ki=Math.floor(Math.random()*N),others=[];
+  for(i=0;i<N;i++)if(i!==ki)others.push(i);
+  for(i=others.length-1;i>0;i--) {
+  j=Math.floor(Math.random()*(i+1));var tmp=others[i];others[i]=others[j];others[j]=tmp
+  }
+  var HP=Math.max(3,Math.min(14,Math.round(N/4)+2));
+  var K= {name:dn[ki],x:HUB.x,y:HUB.y,r:R+3,hp:HP,max:HP,look:0,path:[],house:-1,hit:0,col:'#ff3b30',alive:true};
+  others.forEach(function(idx,q) {
+  var hi=q%HOUSES.length,h=HOUSES[hi],x,y,tries=0,ok;
   do {
-  x=60+Math.random()*(W-120);y=60+Math.random()*(H-120);tries++;
-  ok=free(x,y,R+8)&&Math.hypot(x-pl.x,y-pl.y)>260;
-  if(ok)for(var q=0;q<npcs.length;q++)if(Math.hypot(x-npcs[q].x,y-npcs[q].y)<R*2+4) {
+  x=h.in.x0+R+8+Math.random()*(h.in.x1-h.in.x0-2*R-16);y=h.in.y0+R+8+Math.random()*(h.in.y1-h.in.y0-2*R-16);tries++;
+  ok=true;
+  for(var z=0;z<h.mem.length;z++)if(Math.hypot(x-h.mem[z].x,y-h.mem[z].y)<R*2+4) {
   ok=false;break
   }
   }
   while(!ok&&tries<300);
-  npcs.push( {
-  i:i,name:dn[i],x:x,y:y,r:R,col:'hsl('+((i*137.508)%360)+',70%,58%)',dir:Math.random()*P2,t:0,jit:0,look:0,alive:true
-  }
-  )
+  var n= {name:dn[idx],x:x,y:y,r:R,col:'hsl('+h.hue+',75%,'+(50+(q%3)*7)+'%)',h:hi,tx:x,ty:y,t:0,cd:40+Math.random()*80,look:Math.random()*P2,jit:1,alive:true};
+  h.mem.push(n);npcs.push(n)
   }
   );
-  function nearest() {
-  var b=null,bd=1e9;
-  npcs.forEach(function(n) {
-  if(!n.alive)return;var d=(n.x-pl.x)*(n.x-pl.x)+(n.y-pl.y)*(n.y-pl.y);if(d<bd) {
-  bd=d;b=n
+  function info(txt) {
+  setFoot(txt,[])
   }
+  function houseInfo() {
+  return '🔪 Killer: '+K.name+' · '+HOUSES.map(function(h) {
+  return h.n.replace(' House','')+' '+h.mem.length
   }
-  );return b
+  ).join(' · ')+' · Fully automatic: first victim loses, if the killer falls he loses.'
   }
-  function burst(x,y,col,n,sp) {
-  for(var i=0;i<n;i++) {
-  var a=Math.random()*P2,v=(.3+Math.random())*sp;
-  parts.push( {
-  x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:25+Math.random()*20,c:col,r:2+Math.random()*3
+  function finish(killerDead,v) {
+  state='over';endT=steps/60;
+  if(killerDead) {
+  msg='💀 The killer was taken down!';msg2=K.name+' loses';
+  burst(K.x,K.y,'#ff3b30',30,5);burst(K.x,K.y,'#fff',10,4);winSnd();confetti(120)
   }
-  )
-  }
-  }
-  function foot() {
-  setFoot(out.length?'Eliminated:':HINT_ARENA,out.map(function(n) {
-  return n.name
-  }
-  ),0);
-  gfoot.scrollTop=gfoot.scrollHeight
-  }
-  function kill(n) {
-  n.alive=false;alive--;out.push(n);
-  burst(n.x,n.y,n.col,18,4);burst(n.x,n.y,'#fff',6,3);
-  pops.push( {
-  x:n.x,y:n.y-n.r,t:70,txt:n.name
-  }
+  else {
+  msg='🔪 '+K.name+' got the first victim!';msg2=v.name+' loses';
+  burst(v.x,v.y,v.col,24,4);burst(v.x,v.y,'#fff',8,3);
+  pops.push( {x:v.x,y:v.y-v.r,t:120,txt:v.name}
   );
-  beep(180,.14,'sawtooth',.06);beep(90,.22,'sawtooth',.05,.06);
-  foot();
-  if(alive===0) {
-  state='over';endT=steps/60;winSnd();confetti(120)
+  beep(180,.14,'sawtooth',.06);beep(90,.22,'sawtooth',.05,.06)
   }
-  }
-  function shoot() {
-  var a=pl.ang+(Math.random()-.5)*.03;
-  bul.push( {
-  x:pl.x+Math.cos(a)*(pl.r+16),y:pl.y+Math.sin(a)*(pl.r+16),vx:Math.cos(a)*11,vy:Math.sin(a)*11,l:70
-  }
-  );
-  pl.cd=13;pl.recoil=5;beep(700,.04,'square',.035);beep(320,.06,'square',.03,.02)
+  info(msg+' → '+msg2+' · press Restart for a new random killer')
   }
   function step() {
   steps++;
-  var mx=0,my=0,a,b,n,u,j,dx,dy,d,sp;
-  if(keys.a||keys.arrowleft)mx-=1;if(keys.d||keys.arrowright)mx+=1;
-  if(keys.w||keys.arrowup)my-=1;if(keys.s||keys.arrowdown)my+=1;
-  if(ptr.stick) {
-  mx+=ptr.stick.dx;my+=ptr.stick.dy
-  }
-  d=Math.sqrt(mx*mx+my*my);if(d>1) {
-  mx/=d;my/=d
-  }
+  var a,b,n,u,d,dx,dy,h;
   if(state==='run') {
-  pl.x+=mx*2.5;pl.y+=my*2.5;collide(pl)
-  }
-  var tx=0,ty=0,have=false;
-  if(ptr.aim) {
-  tx=ptr.aim.sx/sc+camX;ty=ptr.aim.sy/sc+camY;have=true
-  }
-  else if(ptr.mouse) {
-  tx=ptr.msx/sc+camX;ty=ptr.msy/sc+camY;have=true
-  }
-  else {
-  n=nearest();if(n) {
-  tx=n.x;ty=n.y;have=true
-  }
-  }
-  if(have)pl.ang=Math.atan2(ty-pl.y,tx-pl.x);
-  if(pl.cd>0)pl.cd--;
-  pl.recoil=Math.max(0,pl.recoil-.6);
-  if(state==='run'&&(ptr.fire||ptr.aim||keys[' '])&&pl.cd<=0)shoot();
   for(a=0;a<npcs.length;a++) {
   n=npcs[a];if(!n.alive)continue;
-  dx=n.x-pl.x;dy=n.y-pl.y;d=Math.sqrt(dx*dx+dy*dy);n.t--;
-  if(d<210) {
+  h=HOUSES[n.h];dx=n.x-K.x;dy=n.y-K.y;d=Math.hypot(dx,dy);n.t--;
+  var sp=.8,ang;
+  if(steps>110&&d<150&&los(n.x,n.y,K.x,K.y)) {
   if(n.t<=0) {
-  n.jit=(Math.random()-.5)*1.4;n.t=25+Math.random()*30
+  n.jit=Math.random()<.5?-1:1;n.t=20+Math.random()*25
   }
-  n.dir=Math.atan2(dy,dx)+n.jit;sp=1.55
+  ang=Math.atan2(dy,dx)+n.jit*.9;sp=1.35;n.tx=n.x+Math.cos(ang)*40;n.ty=n.y+Math.sin(ang)*40
   }
-  else {
-  if(n.t<=0) {
-  n.dir=Math.random()*P2;n.t=70+Math.random()*140
+  else if(n.t<=0||Math.hypot(n.tx-n.x,n.ty-n.y)<8) {
+  n.tx=h.in.x0+R+8+Math.random()*(h.in.x1-h.in.x0-2*R-16);n.ty=h.in.y0+R+8+Math.random()*(h.in.y1-h.in.y0-2*R-16);n.t=80+Math.random()*120
   }
-  sp=.9
-  }
-  var ox=n.x,oy=n.y;
-  n.x+=Math.cos(n.dir)*sp;n.y+=Math.sin(n.dir)*sp;collide(n);
-  if(Math.abs(n.x-ox)+Math.abs(n.y-oy)<sp*.6) {
-  n.t=0;if(d<210)n.jit=(Math.random()<.5?-1:1)*(1.2+Math.random()*.7);else n.dir=Math.random()*P2
-  }
-  n.look=n.dir;
-  if(d<n.r+pl.r) {
-  n.x+=dx/(d||1)*(n.r+pl.r-d);n.y+=dy/(d||1)*(n.r+pl.r-d)
+  ang=Math.atan2(n.ty-n.y,n.tx-n.x);
+  n.x+=Math.cos(ang)*sp;n.y+=Math.sin(ang)*sp;n.look=ang;
+  n.x=Math.max(h.in.x0+n.r+2,Math.min(h.in.x1-n.r-2,n.x));n.y=Math.max(h.in.y0+n.r+2,Math.min(h.in.y1-n.r-2,n.y));
+  if(n.cd>0)n.cd--;
+  if(steps>110&&n.cd<=0&&d<320&&los(n.x,n.y,K.x,K.y)) {
+  var s=Math.atan2(K.y-n.y,K.x-n.x)+(Math.random()-.5)*.2;
+  bul.push( {x:n.x+Math.cos(s)*(n.r+6),y:n.y+Math.sin(s)*(n.r+6),vx:Math.cos(s)*9,vy:Math.sin(s)*9,l:50}
+  );
+  n.look=s;n.cd=55+Math.random()*65;beep(700,.03,'square',.015)
   }
   }
-  for(a=0;a<npcs.length;a++) {
-  if(!npcs[a].alive)continue;
-  for(b=a+1;b<npcs.length;b++) {
-  if(!npcs[b].alive)continue;
+  for(a=0;a<npcs.length;a++)for(b=a+1;b<npcs.length;b++) {
+  if(npcs[a].h!==npcs[b].h)continue;
   dx=npcs[b].x-npcs[a].x;dy=npcs[b].y-npcs[a].y;var mn=npcs[a].r+npcs[b].r;
   if(dx>mn||dx<-mn||dy>mn||dy<-mn)continue;
-  d=Math.sqrt(dx*dx+dy*dy);if(d>=mn)continue;d=d||.001;
+  d=Math.hypot(dx,dy);if(d>=mn)continue;d=d||.001;
   var ov=(mn-d)/2;npcs[a].x-=dx/d*ov;npcs[a].y-=dy/d*ov;npcs[b].x+=dx/d*ov;npcs[b].y+=dy/d*ov
   }
+  /* killer AI: go to a random house through its door, then hunt the nearest person inside */
+  if(steps>110) {
+  if(K.house<0) {
+  var opts=[];HOUSES.forEach(function(x,q) {
+  if(x.mem.length)opts.push(q)
   }
+  );
+  K.house=opts[Math.floor(Math.random()*opts.length)];h=HOUSES[K.house];
+  K.path=[ {x:HUB.x,y:HUB.y}, {x:h.dOut.x,y:h.dOut.y}, {x:h.dIn.x,y:h.dIn.y}]
+  }
+  var ks=1.9,tx,ty;
+  if(K.path.length) {
+  tx=K.path[0].x;ty=K.path[0].y;if(Math.hypot(tx-K.x,ty-K.y)<10)K.path.shift()
+  }
+  else {
+  var best=null,bd=1e9;HOUSES[K.house].mem.forEach(function(m) {
+  var q=Math.hypot(m.x-K.x,m.y-K.y);if(m.alive&&q<bd) {
+  bd=q;best=m
+  }
+  }
+  );
+  if(best) {
+  tx=best.x;ty=best.y
+  }
+  }
+  if(tx!=null) {
+  d=Math.hypot(tx-K.x,ty-K.y)||1;K.x+=(tx-K.x)/d*ks;K.y+=(ty-K.y)/d*ks;K.look=Math.atan2(ty-K.y,tx-K.x);collide(K)
+  }
+  for(a=0;a<npcs.length;a++) {
+  n=npcs[a];
+  if(n.alive&&Math.hypot(n.x-K.x,n.y-K.y)<K.r+n.r+2) {
+  n.alive=false;finish(false,n);break
+  }
+  }
+  }
+  }
+  if(K.hit>0)K.hit--;
   for(b=bul.length-1;b>=0;b--) {
   u=bul[b];u.x+=u.vx;u.y+=u.vy;u.l--;
-  var dead=u.l<=0||u.x<0||u.x>W||u.y<0||u.y>H||!free(u.x,u.y,3),hit=false;
-  if(dead&&u.l>0)burst(u.x,u.y,'#ffd166',4,2.5);
-  if(!dead)for(j=0;j<npcs.length;j++) {
-  n=npcs[j];if(!n.alive)continue;
-  if((u.x-n.x)*(u.x-n.x)+(u.y-n.y)*(u.y-n.y)<(n.r+4)*(n.r+4)) {
-  kill(n);dead=true;break
+  var dead=u.l<=0||u.x<0||u.x>W||u.y<0||u.y>H||!free(u.x,u.y,3);
+  if(dead&&u.l>0)burst(u.x,u.y,'#ffd166',3,2);
+  if(!dead&&state==='run'&&Math.hypot(u.x-K.x,u.y-K.y)<K.r+4) {
+  dead=true;K.hp--;K.hit=8;burst(K.x,K.y,'#ff3b30',8,3);beep(240,.06,'sawtooth',.05);
+  pops.push( {x:K.x,y:K.y-K.r,t:40,txt:'-1'}
+  );
+  if(K.hp<=0) {
+  K.alive=false;finish(true)
   }
   }
   if(dead)bul.splice(b,1)
@@ -1790,94 +1784,80 @@
   pops[a].t--;pops[a].y-=.5;if(pops[a].t<=0)pops.splice(a,1)
   }
   }
-  function ch(c,gun) {
+  function ch(c,killer) {
   gx.fillStyle='rgba(0,0,0,.28)';gx.beginPath();gx.ellipse(c.x,c.y+c.r*.75,c.r*.95,c.r*.45,0,0,P2);gx.fill();
-  if(gun) {
-  gx.beginPath();gx.arc(c.x,c.y,c.r+5,0,P2);gx.strokeStyle='rgba(255,255,255,.75)';gx.lineWidth=3;gx.stroke()
+  if(killer) {
+  gx.beginPath();gx.arc(c.x,c.y,c.r+6,0,P2);gx.strokeStyle='rgba(255,59,48,.85)';gx.lineWidth=4;gx.stroke()
   }
-  gx.beginPath();gx.arc(c.x,c.y,c.r,0,P2);gx.fillStyle=c.col;gx.fill();gx.lineWidth=3;gx.strokeStyle='#0d2536';gx.stroke();
-  var a=gun?c.ang:c.look,ca=Math.cos(a),sa=Math.sin(a),e=c.r*.35,pp=c.r*.32,i;
-  for(i=-1;i<=1;i+=2) {
-  var ex=c.x+ca*e-sa*pp*i,ey=c.y+sa*e+ca*pp*i;
+  gx.beginPath();gx.arc(c.x,c.y,c.r,0,P2);gx.fillStyle=killer&&c.hit>0?'#fff':c.col;gx.fill();gx.lineWidth=3;gx.strokeStyle='#0d2536';gx.stroke();
+  var a=c.look,ca=Math.cos(a),sa=Math.sin(a),e=c.r*.35,pp=c.r*.32,k;
+  for(k=-1;k<=1;k+=2) {
+  var ex=c.x+ca*e-sa*pp*k,ey=c.y+sa*e+ca*pp*k;
   gx.beginPath();gx.arc(ex,ey,c.r*.26,0,P2);gx.fillStyle='#fff';gx.fill();
-  gx.beginPath();gx.arc(ex+ca*c.r*.1,ey+sa*c.r*.1,c.r*.12,0,P2);gx.fillStyle='#0d2536';gx.fill()
+  gx.beginPath();gx.arc(ex+ca*c.r*.1,ey+sa*c.r*.1,c.r*.12,0,P2);gx.fillStyle=killer?'#c00':'#0d2536';gx.fill()
   }
-  if(gun) {
-  gx.save();gx.translate(c.x,c.y);gx.rotate(c.ang);
-  gx.fillStyle='#0d2536';gx.fillRect(c.r*.5-c.recoil,-4,c.r+16,8);
-  gx.fillStyle='#cbd5e1';gx.fillRect(c.r*.5-c.recoil+c.r+10,-3,6,6);
-  gx.restore()
-  }
-  }
-  function draw() {
-  var i,n,u,vw,vh,tx,ty;
-  sc=Math.max(Math.min(CW/W,CH/H),.72);vw=CW/sc;vh=CH/sc;
-  tx=vw>=W?-(vw-W)/2:Math.max(0,Math.min(W-vw,pl.x-vw/2));
-  ty=vh>=H?-(vh-H)/2:Math.max(0,Math.min(H-vh,pl.y-vh/2));
-  if(fresh) {
-  camX=tx;camY=ty;fresh=false
+  gx.save();gx.translate(c.x,c.y);gx.rotate(a);
+  if(killer) {
+  gx.fillStyle='#e2e8f0';gx.fillRect(c.r*.6,-2,c.r+8,4)
   }
   else {
-  camX+=(tx-camX)*.15;camY+=(ty-camY)*.15
+  gx.fillStyle='#0d2536';gx.fillRect(c.r*.5,-2.5,c.r*.9,5)
   }
+  gx.restore()
+  }
+  function draw() {
+  var t=state==='over'?endT:steps/60,q,n,fs=N>40?10:12;
+  sc=Math.min(CW/W,CH/H);ox=(CW-W*sc)/2;oy=(CH-H*sc)/2;
   gx.fillStyle='#08131c';gx.fillRect(0,0,CW,CH);
-  gx.save();gx.scale(sc,sc);gx.translate(-camX,-camY);
+  gx.save();gx.translate(ox,oy);gx.scale(sc,sc);
   gx.fillStyle='#173247';gx.fillRect(0,0,W,H);
-  gx.strokeStyle='rgba(255,255,255,.045)';gx.lineWidth=1;gx.beginPath();
-  for(i=0;i<=W;i+=60) {
-  gx.moveTo(i,0);gx.lineTo(i,H)
-  }
-  for(i=0;i<=H;i+=60) {
-  gx.moveTo(0,i);gx.lineTo(W,i)
-  }
-  gx.stroke();
   gx.strokeStyle='#f29111';gx.lineWidth=6;gx.strokeRect(0,0,W,H);
+  HOUSES.forEach(function(h) {
+  gx.globalAlpha=.16;gx.fillStyle=h.col;gx.fillRect(h.x0,h.y0,h.x1-h.x0,h.y1-h.y0);gx.globalAlpha=1
+  }
+  );
   walls.forEach(function(w) {
   gx.fillStyle='#0d2536';gx.fillRect(w.x,w.y,w.w,w.h);gx.strokeStyle='#4fb3c8';gx.lineWidth=3;gx.strokeRect(w.x,w.y,w.w,w.h)
   }
   );
-  for(i=0;i<npcs.length;i++)if(npcs[i].alive)ch(npcs[i],false);
-  ch(pl,true);
+  for(q=0;q<npcs.length;q++)if(npcs[q].alive)ch(npcs[q],false);
+  ch(K,true);
   gx.fillStyle='#ffd166';gx.strokeStyle='rgba(255,209,102,.4)';gx.lineWidth=3;
   bul.forEach(function(b) {
   gx.beginPath();gx.moveTo(b.x,b.y);gx.lineTo(b.x-b.vx*1.6,b.y-b.vy*1.6);gx.stroke();
-  gx.beginPath();gx.arc(b.x,b.y,4,0,P2);gx.fill()
+  gx.beginPath();gx.arc(b.x,b.y,3.5,0,P2);gx.fill()
   }
   );
   parts.forEach(function(p) {
   gx.globalAlpha=Math.min(1,p.l/20);gx.fillStyle=p.c;gx.beginPath();gx.arc(p.x,p.y,p.r,0,P2);gx.fill()
   }
   );
-  gx.globalAlpha=1;gx.restore();
-  var fs=N>40?10:12;
-  for(i=0;i<npcs.length;i++) {
-  n=npcs[i];if(!n.alive)continue;
-  label(n.name,(n.x-camX)*sc,(n.y-camY)*sc-n.r*sc-8,fs)
-  }
-  label('You',(pl.x-camX)*sc,(pl.y-camY)*sc-pl.r*sc-10,13,'#ffd166');
-  pops.forEach(function(p) {
-  label('✖ '+p.txt,(p.x-camX)*sc,(p.y-camY)*sc,14,'#ff8a8a',Math.min(1,p.t/30))
+  gx.globalAlpha=1;
+  var bw=44,bx=K.x-bw/2,by=K.y-K.r-16;
+  gx.fillStyle='rgba(6,16,26,.85)';gx.fillRect(bx-2,by-2,bw+4,9);gx.fillStyle='#ff3b30';gx.fillRect(bx,by,bw*Math.max(0,K.hp)/K.max,5);
+  gx.restore();
+  HOUSES.forEach(function(h) {
+  label(h.n+' ('+h.mem.length+')',(ox+(h.x0+h.x1)/2*sc),oy+(h.y0-8)*sc+ (h.y0<100?20*sc:0),13,h.col,.95)
   }
   );
-  if(ptr.aim||ptr.mouse) {
-  var cx=ptr.aim?ptr.aim.sx:ptr.msx,cy=ptr.aim?ptr.aim.sy:ptr.msy;
-  gx.strokeStyle='rgba(255,255,255,.85)';gx.lineWidth=2;gx.beginPath();gx.arc(cx,cy,9,0,P2);
-  gx.moveTo(cx-15,cy);gx.lineTo(cx-4,cy);gx.moveTo(cx+4,cy);gx.lineTo(cx+15,cy);gx.moveTo(cx,cy-15);gx.lineTo(cx,cy-4);gx.moveTo(cx,cy+4);gx.lineTo(cx,cy+15);gx.stroke()
+  for(q=0;q<npcs.length;q++) {
+  n=npcs[q];if(!n.alive)continue;
+  label(n.name,ox+n.x*sc,oy+n.y*sc-n.r*sc-6,fs)
   }
-  if(ptr.stick) {
-  var st=ptr.stick;
-  gx.beginPath();gx.arc(st.ox,st.oy,46,0,P2);gx.fillStyle='rgba(255,255,255,.08)';gx.fill();gx.strokeStyle='rgba(255,255,255,.35)';gx.lineWidth=2;gx.stroke();
-  gx.beginPath();gx.arc(st.ox+st.dx*46,st.oy+st.dy*46,22,0,P2);gx.fillStyle='rgba(255,255,255,.4)';gx.fill()
+  label('🔪 '+K.name,ox+K.x*sc,oy+K.y*sc-K.r*sc-22*sc-4,14,'#ff8a8a');
+  pops.forEach(function(p) {
+  label('✖ '+p.txt,ox+p.x*sc,oy+p.y*sc,14,'#ff8a8a',Math.min(1,p.t/30))
   }
-  if(steps<170&&state==='run')label('Eliminate everyone!',CW/2,40,20,'#ffd166',Math.min(1,(170-steps)/40));
-  var t=state==='over'?endT:steps/60;
+  );
+  if(steps<110&&state==='run')pill('🔪 The killer is '+K.name+' · the rest split into houses',CW/2,40,17,'#ffd166');
   if(state==='over') {
-  pill('🎯 All eliminated! Last one out: '+out[out.length-1].name,CW/2,CH/2-16,20,'#ffd166');
-  pill('⏱ '+endT.toFixed(1)+' s · press Restart to play again',CW/2,CH/2+26,15,'#fff')
+  pill(msg,CW/2,CH/2-30,20,'#ffd166');
+  pill(msg2.toUpperCase()+' · '+endT.toFixed(1)+' s',CW/2,CH/2+12,22,'#ff8a8a');
+  pill('press Restart for a new random killer',CW/2,CH/2+50,13,'#fff')
   }
-  setHud('🎯 '+(N-alive)+'/'+N+' out · ⏱ '+t.toFixed(1)+' s')
+  setHud('🔪 '+K.name+' · ❤ '+Math.max(0,K.hp)+'/'+K.max+' · ⏱ '+t.toFixed(1)+' s')
   }
-  setFoot(HINT_ARENA,[]);
+  info(houseInfo());
   return  {
   step:step,draw:draw
   }
@@ -1898,14 +1878,14 @@
   keys= {
   }
   ;ptr.stick=null;ptr.aim=null;ptr.mouse=false;ptr.fire=false;acc=0;lastT=0;hudTxt='';
-  gtitle.textContent=kind==='marble'?'🏁 Marble Race':'🎯 Arena Hunt';
-  gcv.style.cursor=kind==='arena'?'crosshair':'default';
+  gtitle.textContent=kind==='marble'?'🏁 Marble Race':'🔪 Arena Hunt';
+  gcv.style.cursor='default';
   fit();game=kind==='marble'?marbleGame():arenaGame();
   }
   function open(k) {
   if(busy)return;
-  if(names.length<(k==='marble'?2:1)) {
-  note(k==='marble'?'Add at least 2 names to start a marble race.':'Add at least 1 name to enter the arena.');return
+  if(names.length<(k==='marble'?2:3)) {
+  note(k==='marble'?'Add at least 2 names to start a marble race.':'Add at least 3 names to start Arena Hunt.');return
   }
   kind=k;opener=document.activeElement;
   gm.style.display='flex';document.body.style.overflow='hidden';
@@ -1999,7 +1979,7 @@
   close();return
   }
   var k=e.key.toLowerCase();
-  if(kind==='arena'&&KEYS[k]) {
+  if(false&&KEYS[k]) {
   keys[k]=true;e.preventDefault()
   }
   }
