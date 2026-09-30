@@ -665,6 +665,13 @@
   .games h2{grid-column:1/-1;margin:0}
   .gnote{grid-column:1/-1;margin:0;color:var(--org);font-weight:800}
   .gnote:empty{display:none}
+  .grig{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;align-items:stretch}
+  .grig input{border:2px solid var(--line);border-radius:18px;background:var(--chip);color:var(--ink);font:inherit;padding:12px 14px;min-width:0}
+  .grig input:focus-visible{outline:3px solid var(--org);outline-offset:1px;border-color:transparent}
+  .grigb{flex-direction:row;align-items:center;gap:10px;padding:12px 18px}
+  .grigb b{font-size:1.1rem}
+  .grigb[aria-pressed="true"]{border-color:var(--ink)}
+  .grigb:disabled{opacity:.6;cursor:default}
   .gcard{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:left;border-radius:22px;padding:18px 20px;background:var(--blue2);color:var(--ink);font-weight:500;border:3px solid transparent}
   .gcard:hover{border-color:var(--blue)}
   .gcard .em{font-size:2.2rem;line-height:1}
@@ -688,7 +695,7 @@
   You can also separate them with commas or semicolons:
   <pre>Emily Carter, James Miller, Sophia Reed</pre><small>Numbered lists (1. Emily, 2) James, - Sophia) work too: numbers and dashes are removed automatically. A .txt or .csv file uses the same format: names only, no headers.</small><div class="row"><button id="demo">Try the example</button></div></div><textarea id="ta" aria-label="Names to add" placeholder="Paste or type names here…"></textarea><div class="row"><button class="pri" id="add">Add to list</button><label class="file">Upload file<input type="file" id="fi" accept=".txt,.csv,text/plain,text/csv"></label><span class="det" id="det">0 names detected</span></div></section><section class="tile run"><h2>Run query</h2><div class="seg" role="group" aria-label="Draw mode"><button id="m-uno" aria-pressed="true">One</button><button id="m-varios" aria-pressed="false">Several</button><button id="m-parejas" aria-pressed="false">Pairs</button></div><div class="row qrow" id="qrow" style="display:none"><label for="qty" id="qlab">How many?</label><input type="number" id="qty" min="1" max="99" value="3"><small id="qhint"></small></div><div class="row" style="margin-top:0"><button class="pri" id="stbtn">Style</button><button id="snd">🔊 Sound on</button></div><pre class="qbox"><span class="k">SELECT</span> name
   <span class="k">FROM</span> students
-  <span class="k">WHERE</span> already_picked = <span class="f" id="w">0</span><span class="k">ORDER BY</span><span class="f">RAND()</span><span id="lim"><span class="k">LIMIT</span> 1;</span></pre><label class="chk"><input type="checkbox" id="norep" checked> Don't repeat people already picked</label><button class="go" id="go">Run query</button><div class="stage" id="stage" style="display:none"><canvas id="cv" aria-label="Animated draw"></canvas><div class="reel" id="reel"></div></div><div class="res" aria-live="polite"><div class="big" id="big" style="color:var(--mute)">Not run yet</div><div class="meta" id="meta">Add names and press the button</div><div class="multi" id="multi"></div><button id="back" style="display:none">Return to the draw</button></div><div class="hist" id="hist"></div></section><section class="tile games"><h2>Mini games</h2><p class="gnote" id="gnote" aria-live="polite"></p><button class="gcard" id="g-marble"><span class="em" aria-hidden="true">🏁</span><b>Marble Race</b><small>Every name becomes a marble (first name only). They tumble down a peg course and the first one over the line wins.</small></button><button class="gcard" id="g-arena"><span class="em" aria-hidden="true">🔪</span><b>Arena Hunt</b><small>A random name becomes the killer; everyone else splits into houses and fights back. First victim loses — if the killer falls, he loses. Fully automatic.</small></button></section><section class="tile all"><div class="head"><h2>Students table</h2><span id="cnt"></span></div><div class="cloud" id="cloud"></div><div class="row"><button id="reset">Reset turns</button><button id="clear">Clear list</button></div></section><footer class="tile foot">Created by <b>Andrey</b>, <b>Raul</b>, <b>Joan</b>, and <b>Andres R</b></footer></main><canvas id="fx" aria-hidden="true"></canvas><div class="pick" id="pick" style="display:none" role="dialog" aria-modal="true" aria-label="Choose a visual style"><div class="pbox"><div class="phead"><h2>Visual styles</h2><button id="pclose">Close</button></div><div class="pgrid" id="pgrid"></div></div></div><div class="gm" id="gm" style="display:none" role="dialog" aria-modal="true" aria-label="Mini game"><div class="gbox"><div class="ghead"><h2 id="gtitle"></h2><span class="ghud" id="ghud"></span><button class="pri" id="gagain">Restart</button><button id="gclose">Close</button></div><div class="gstage" id="gstage"><canvas id="gcv" tabindex="0" aria-label="Game area"></canvas></div><div class="gfoot" id="gfoot"></div></div></div><script>
+  <span class="k">WHERE</span> already_picked = <span class="f" id="w">0</span><span class="k">ORDER BY</span><span class="f">RAND()</span><span id="lim"><span class="k">LIMIT</span> 1;</span></pre><label class="chk"><input type="checkbox" id="norep" checked> Don't repeat people already picked</label><button class="go" id="go">Run query</button><div class="stage" id="stage" style="display:none"><canvas id="cv" aria-label="Animated draw"></canvas><div class="reel" id="reel"></div></div><div class="res" aria-live="polite"><div class="big" id="big" style="color:var(--mute)">Not run yet</div><div class="meta" id="meta">Add names and press the button</div><div class="multi" id="multi"></div><button id="back" style="display:none">Return to the draw</button></div><div class="hist" id="hist"></div></section><section class="tile games"><h2>Mini games</h2><p class="gnote" id="gnote" aria-live="polite"></p><div class="grig"><input type="text" id="rig-in" maxlength="60" autocomplete="off" placeholder="Type who should always come out…" aria-label="Name that always comes out"><button class="gcard grigb" id="g-rig" aria-pressed="false" disabled><span class="em" aria-hidden="true">🎯</span><b>Nobody yet</b><small>Type a name on the left and it turns on by itself.</small></button></div><button class="gcard" id="g-marble"><span class="em" aria-hidden="true">🏁</span><b>Marble Race</b><small>Every name becomes a marble (first name only). They tumble down a peg course and the first one over the line wins.</small></button><button class="gcard" id="g-arena"><span class="em" aria-hidden="true">🔪</span><b>Arena Hunt</b><small>A random name becomes the killer; everyone else splits into houses and fights back. First victim loses — if the killer falls, he loses. Fully automatic.</small></button></section><section class="tile all"><div class="head"><h2>Students table</h2><span id="cnt"></span></div><div class="cloud" id="cloud"></div><div class="row"><button id="reset">Reset turns</button><button id="clear">Clear list</button></div></section><footer class="tile foot">Created by <b>Andrey</b>, <b>Raul</b>, <b>Joan</b>, and <b>Andres R</b></footer></main><canvas id="fx" aria-hidden="true"></canvas><div class="pick" id="pick" style="display:none" role="dialog" aria-modal="true" aria-label="Choose a visual style"><div class="pbox"><div class="phead"><h2>Visual styles</h2><button id="pclose">Close</button></div><div class="pgrid" id="pgrid"></div></div></div><div class="gm" id="gm" style="display:none" role="dialog" aria-modal="true" aria-label="Mini game"><div class="gbox"><div class="ghead"><h2 id="gtitle"></h2><span class="ghud" id="ghud"></span><button class="pri" id="gagain">Restart</button><button id="gclose">Close</button></div><div class="gstage" id="gstage"><canvas id="gcv" tabindex="0" aria-label="Game area"></canvas></div><div class="gfoot" id="gfoot"></div></div></div><script>
   var MIN=26,names=[],hist=[],busy=false;
   try {
   var s=JSON.parse(localStorage.getItem('sorteo-sql-v2')||'null');if(s&&s.names)names=s.names
@@ -1394,7 +1401,7 @@
   function marbleGame() {
   var SN=shortNames();
   var W=560,FIN=2520,H=2700,G=.12,MAXV=6,N=names.length,R=N>70?6:N>45?8:N>28?10:12;
-  var pegs=[],segs=[],ms=[],order=[],state='count',steps=0,cnt=0,camY=0,lastClack=0,endT=0,leadName='',fl=null,x,y,r,k;
+  var pegs=[],segs=[],ms=[],order=[],state='count',steps=0,cnt=0,camY=0,lastClack=0,endT=0,leadName='',fl=null,wm=null,x,y,r,k;
   for(r=0,y=250;y<=800;y+=72,r++)for(x=(r%2?45:85);x<=W-45;x+=80)pegs.push( {
   x:x,y:y,r:7
   }
@@ -1445,15 +1452,22 @@
   spinner(rnd(110,170),rnd(2485,2505),rnd(130,160),dir()*rnd(.02,.045),Math.random()<.7);
   spinner(rnd(370,410),rnd(2485,2505),rnd(130,160),dir()*rnd(.02,.045),Math.random()<.7);
   var gap=2*R+4,cols=Math.floor((W-40)/gap)-1,x0=(W-cols*gap)/2+R;
-  shuffle(names.map(function(_,i) {
+  (function(o) {
+  var pp=o.indexOf(rigIdx);if(pp>=0)o.push(o.splice(pp,1)[0]);return o
+  }
+  )(shuffle(names.map(function(_,i) {
   return i
   }
-  )).forEach(function(i,q) {
+  ))).forEach(function(i,q) {
   var c=q%cols,rw=Math.floor(q/cols);
   ms.push( {
   i:i,name:SN[i],x:x0+c*gap+(rw%2?gap/2:0),y:40+rw*gap,vx:(Math.random()-.5)*.6,vy:0,r:R,col:'hsl('+((i*137.508)%360)+',72%,56%)',done:false,t:0,ax:0,ay:0
   }
   )
+  }
+  );
+  ms.forEach(function(z) {
+  if(z.i===rigIdx)wm=z
   }
   );
   function clack(v) {
@@ -1497,12 +1511,34 @@
   steps++;
   var a,b,j,m,p,s,d,dx,dy,l2,t,cx,cy,mn,nx,ny,ov,vn,jm;
   for(j=0;j<spin.length;j++)spin[j].a+=spin[j].w;
+  var ly=0;
+  if(wm)for(a=0;a<ms.length;a++)if(ms[a]!==wm&&ms[a].y>ly)ly=ms[a].y;
   for(a=0;a<ms.length;a++) {
   m=ms[a];m.vy+=G;m.vx*=.999;m.vy*=.999;
-  d=Math.sqrt(m.vx*m.vx+m.vy*m.vy);if(d>MAXV) {
-  m.vx*=MAXV/d;m.vy*=MAXV/d
+  var cap=MAXV;
+  if(m===wm&&!m.done) {
+  var gp=Math.max(0,ly-m.y);m.vy+=G*(.5+Math.min(3,gp*.02)+(m.y>FIN-260?2:0));cap=gp>30||m.y>FIN-260?12:9;
+  m.stk=Math.hypot(m.vx,m.vy)<.5?(m.stk||0)+1:0;
+  if(m.stk>15) {
+  m.vx+=(Math.random()-.5)*5;m.vy-=2;m.stk=0
+  }
+  if(steps%40===0) {
+  if(Math.hypot(m.x-(m.px||0),m.y-(m.py||0))<25) {
+  m.vx+=(Math.random()-.5)*8;m.vy+=3.5;m.y+=6
+  }
+  m.px=m.x;m.py=m.y
+  }
+  }
+  else if(wm&&!wm.done&&m.y>FIN-900&&m.y>wm.y+10) {
+  m.vy*=1-(m.y>FIN-350?Math.min(.5,.12+(m.y-wm.y)*.008):Math.min(.2,(m.y-wm.y)*.006))
+  }
+  d=Math.sqrt(m.vx*m.vx+m.vy*m.vy);if(d>cap) {
+  m.vx*=cap/d;m.vy*=cap/d
   }
   m.x+=m.vx;m.y+=m.vy;
+  if(wm&&!wm.done&&m!==wm&&m.y>FIN-14&&wm.y>FIN-140) {
+  m.y=FIN-14;if(m.vy>0)m.vy=.4
+  }
   if(m.x<m.r) {
   m.x=m.r;m.vx=Math.abs(m.vx)*.5
   }
@@ -1536,14 +1572,20 @@
   for(a=0;a<ms.length;a++)for(b=a+1;b<ms.length;b++) {
   var A=ms[a],B=ms[b];dy=B.y-A.y;mn=A.r+B.r;if(dy>mn||dy<-mn)continue;
   dx=B.x-A.x;d=dx*dx+dy*dy;if(d>=mn*mn)continue;
-  d=Math.sqrt(d)||.001;nx=dx/d;ny=dy/d;ov=(mn-d)/2;
-  A.x-=nx*ov;A.y-=ny*ov;B.x+=nx*ov;B.y+=ny*ov;
+  d=Math.sqrt(d)||.001;nx=dx/d;ny=dy/d;
+  var fa=A===wm?.08:1,fb=B===wm?.08:1,fs=fa+fb;ov=mn-d;
+  A.x-=nx*ov*fa/fs;A.y-=ny*ov*fa/fs;B.x+=nx*ov*fb/fs;B.y+=ny*ov*fb/fs;
   vn=(B.vx-A.vx)*nx+(B.vy-A.vy)*ny;
   if(vn<0) {
-  jm=-(1.6)*vn/2;A.vx-=jm*nx;A.vy-=jm*ny;B.vx+=jm*nx;B.vy+=jm*ny
+  jm=-(1.6)*vn/fs;A.vx-=jm*nx*fa;A.vy-=jm*ny*fa;B.vx+=jm*nx*fb;B.vy+=jm*ny*fb
   }
   }
-  for(a=0;a<ms.length;a++)if(!ms[a].done&&ms[a].y>FIN)finish(ms[a]);
+  for(a=0;a<ms.length;a++) {
+  if(wm&&!wm.done&&ms[a]!==wm&&ms[a].y>FIN&&wm.y>FIN-140) {
+  ms[a].y=FIN-2;if(ms[a].vy>.3)ms[a].vy=.3;continue
+  }
+  if(!ms[a].done&&ms[a].y>FIN)finish(ms[a])
+  }
   if(state==='run'&&order.length&&steps/60-order[0].t>45) {
   state='over';endT=steps/60
   }
@@ -1710,7 +1752,11 @@
   }
   }
   /* random killer + the rest split into houses */
-  var ki=Math.floor(Math.random()*N),others=[];
+  var ki,others=[],rn=null;
+  do {
+  ki=Math.floor(Math.random()*N)
+  }
+  while(ki===rigIdx&&N>1);
   for(i=0;i<N;i++)if(i!==ki)others.push(i);
   for(i=others.length-1;i>0;i--) {
   j=Math.floor(Math.random()*(i+1));var tmp=others[i];others[i]=others[j];others[j]=tmp
@@ -1728,6 +1774,7 @@
   }
   while(!ok&&tries<300);
   var n= {name:dn[idx],x:x,y:y,r:R,col:'hsl('+h.hue+',75%,'+(50+(q%3)*7)+'%)',h:hi,tx:x,ty:y,t:0,cd:40+Math.random()*80,look:Math.random()*P2,jit:1,alive:true};
+  if(idx===rigIdx)rn=n;
   h.mem.push(n);npcs.push(n)
   }
   );
@@ -1797,7 +1844,7 @@
   if(x.mem.length)opts.push(q)
   }
   );
-  K.house=opts[Math.floor(Math.random()*opts.length)];h=HOUSES[K.house];
+  K.house=rn?rn.h:opts[Math.floor(Math.random()*opts.length)];h=HOUSES[K.house];
   K.path=[ {x:HUB.x,y:HUB.y}, {x:h.dOut.x,y:h.dOut.y}, {x:h.dIn.x,y:h.dIn.y}]
   }
   var ks=1.9,tx,ty;
@@ -1806,7 +1853,7 @@
   }
   else {
   var best=null,bd=1e9;HOUSES[K.house].mem.forEach(function(m) {
-  var q=Math.hypot(m.x-K.x,m.y-K.y);if(m.alive&&q<bd) {
+  var q=Math.hypot(m.x-K.x,m.y-K.y);if(m.alive&&(!rn||m===rn)&&q<bd) {
   bd=q;best=m
   }
   }
@@ -1820,7 +1867,7 @@
   }
   for(a=0;a<npcs.length;a++) {
   n=npcs[a];
-  if(n.alive&&Math.hypot(n.x-K.x,n.y-K.y)<K.r+n.r+2) {
+  if(n.alive&&(!rn||n===rn)&&Math.hypot(n.x-K.x,n.y-K.y)<K.r+n.r+2) {
   n.alive=false;finish(false,n);break
   }
   }
@@ -1832,7 +1879,7 @@
   var dead=u.l<=0||u.x<0||u.x>W||u.y<0||u.y>H||!free(u.x,u.y,3);
   if(dead&&u.l>0)burst(u.x,u.y,'#ffd166',3,2);
   if(!dead&&state==='run'&&Math.hypot(u.x-K.x,u.y-K.y)<K.r+4) {
-  dead=true;K.hp--;K.hit=8;burst(K.x,K.y,'#ff3b30',8,3);beep(240,.06,'sawtooth',.05);
+  dead=true;if(!(rn&&K.hp<=1))K.hp--;K.hit=8;burst(K.x,K.y,'#ff3b30',8,3);beep(240,.06,'sawtooth',.05);
   pops.push( {x:K.x,y:K.y-K.r,t:40,txt:'-1'}
   );
   if(K.hp<=0) {
@@ -1942,16 +1989,39 @@
   keys= {
   }
   ;ptr.stick=null;ptr.aim=null;ptr.mouse=false;ptr.fire=false;acc=0;lastT=0;hudTxt='';
-  gtitle.textContent=kind==='marble'?'🏁 Marble Race':'🔪 Arena Hunt';
+  gtitle.textContent=(kind==='marble'?'🏁 Marble Race':'🔪 Arena Hunt')+'';
   gcv.style.cursor='default';
-  fit();game=kind==='marble'?marbleGame():arenaGame();
+  fit();rigIdx=-1;
+  var saved=names;
+  if(rigOn) {
+  var seen= {
+  }
+  ,so=[];
+  names=saved.filter(function(r) {
+  var key=nk(String(r.n).trim().replace(/\s+/g,' '));
+  if(seen[key])return false;seen[key]=1;return true
+  }
+  );
+  names.forEach(function(r,q) {
+  if(isRig(r))so.push(q)
+  }
+  );
+  if(so.length)rigIdx=so[Math.floor(Math.random()*so.length)]
+  }
+  try {
+  game=kind==='marble'?marbleGame():arenaGame()
+  }
+  finally {
+  names=saved
+  }
+  ;
   }
   function open(k) {
   if(busy)return;
-  if(names.length<(k==='marble'?2:3)) {
-  note(k==='marble'?'Add at least 2 names to start a marble race.':'Add at least 3 names to start Arena Hunt.');return
+  if(names.length<2) {
+  note(k==='marble'?'Add at least 2 names to start a marble race.':'Add at least 2 names to start Arena Hunt.');return
   }
-  kind=k;opener=document.activeElement;
+  rigPaint();kind=k;opener=document.activeElement;
   gm.style.display='flex';document.body.style.overflow='hidden';
   start();if(!raf)raf=requestAnimationFrame(loop);gcv.focus()
   }
@@ -1964,6 +2034,35 @@
   ;gm.style.display='none';document.body.style.overflow='';
   if(opener&&opener.focus)opener.focus()
   }
+  var rigOn=false,rigIdx=-1,rigTxt='',rigBtn=$('g-rig'),rigIn=$('rig-in');
+  function isRig(r) {
+  var w=nk(String(r.n)).split(/\s+/),q=nk(rigTxt).split(/\s+/).filter(Boolean);
+  return q.length>0&&q.every(function(t) {
+  return w.indexOf(t)>=0
+  }
+  )
+  }
+  function rigLabel() {
+  return rigTxt.split(/\s+/).filter(Boolean).map(function(t) {
+  return t.charAt(0).toUpperCase()+t.slice(1).toLowerCase()
+  }
+  ).join(' ')
+  }
+  function rigPaint() {
+  var lb=rigLabel(),has=!!lb&&names.some(isRig);
+  if(!has)rigOn=false;
+  rigBtn.disabled=!has;rigBtn.setAttribute('aria-pressed',rigOn?'true':'false');
+  rigBtn.querySelector('b').textContent=!lb?'Nobody yet':has?lb+(rigOn?' · ON':' · OFF'):lb+' · not in the list';
+  rigBtn.querySelector('small').textContent=!lb?'Type a name on the left and it turns on by itself.':!has?'Nobody in the list matches that name.':rigOn?'ON: everyone plays, but '+lb+' is the one who comes out. Press to switch it off.':'Press to switch it on again.'
+  }
+  rigIn.addEventListener('input',function() {
+  rigTxt=rigIn.value.trim();rigOn=!!rigTxt&&names.some(isRig);rigPaint()
+  }
+  );
+  rigBtn.onclick=function() {
+  if(!names.some(isRig))return;rigOn=!rigOn;rigPaint()
+  }
+  ;
   $('g-marble').onclick=function() {
   open('marble')
   }
