@@ -730,7 +730,7 @@
   }
   ).join(' ')
   }
-  var EXAMPLE=['ANDRES FELIPE RUEDA','Andrés Felipe JIménez Ramírez','Brayan Rafael Medina Madiedo','Brenda NIcol Carrillo Gonzalez','CARLOS MARIO VELASQUEZ ANGULO','Crisbely Maria Graterol Goitia','Duvan Steven Covilla Rolón','Exneider Alfonso Nava Archila','JHORMAN FABIAN PEÑALOZA SIERRA','JOAN SEBASTIAN BLANCO RUIZ','Javier Alfonso Suarez Duarte','Julio Ernesto Castaño Palacios','Kleiderson Jesús Salcedo RIco','Marilud Uribe Prada','RAUL FELIPE CALVO VIANCHA','Ricardo Jose Vargas Gamboa','SOFIA SALAZAR HERNANDEZ','Thomas Andrey Arevalo Casadiego','Valeria Lizcano Arenas','Yeimer Andres Torres Manrique','Yonder Daniel Maldonado Pabon','Zlatan Ricardo Villamizar Fajardo','alvaro andres angarita escobar','carlos said perez gutierrez','hamilton julian quiroga vera','keiler sebastian serrano rosales'];
+  var EXAMPLE=['ANDRES FELIPE RUEDA','Andrés Felipe JIménez Ramírez','Brayan Rafael Medina Madiedo','Brenda NIcol Carrillo Gonzalez','CARLOS MARIO VELASQUEZ ANGULO','Crisbely Maria Graterol Goitia','Duvan Steven Covilla Rolón','Exneider Alfonso Nava Archila','JHORMAN FABIAN PEÑALOZA SIERRA','JOAN SEBASTIAN BLANCO RUIZ','Javier Alfonso Suarez Duarte','Julio Ernesto Castaño Palacios','Kleiderson Jesús Salcedo RIco','Marilud Uribe Prada','RAUL FELIPE CALVO VIANCHA','Ricardo Jose Vargas Gamboa','SOFIA SALAZAR HERNANDEZ','SOFIA P','Thomas Andrey Arevalo Casadiego','Valeria Lizcano Arenas','Yeimer Andres Torres Manrique','Yonder Daniel Maldonado Pabon','Zlatan Ricardo Villamizar Fajardo','alvaro andres angarita escobar','carlos said perez gutierrez','hamilton julian quiroga vera','keiler sebastian serrano rosales'];
   function render() {
   var c=$('cloud');c.innerHTML='';
   var total=Math.max(MIN,names.length);
@@ -1394,7 +1394,7 @@
   function marbleGame() {
   var SN=shortNames();
   var W=560,FIN=2520,H=2700,G=.12,MAXV=6,N=names.length,R=N>70?6:N>45?8:N>28?10:12;
-  var pegs=[],segs=[],ms=[],order=[],state='count',steps=0,cnt=0,camY=0,lastClack=0,endT=0,leadName='',x,y,r,k;
+  var pegs=[],segs=[],ms=[],order=[],state='count',steps=0,cnt=0,camY=0,lastClack=0,endT=0,leadName='',fl=null,x,y,r,k;
   for(r=0,y=250;y<=800;y+=72,r++)for(x=(r%2?45:85);x<=W-45;x+=80)pegs.push( {
   x:x,y:y,r:7
   }
@@ -1430,10 +1430,20 @@
   spin.push( {cx:cx,cy:cy,h:len/2,w:w,a:Math.random()*P2});
   if(cross)spin.push( {cx:cx,cy:cy,h:len/2,w:w,a:spin[spin.length-1].a+Math.PI/2})
   }
-  spinner(W/2,1000,64,.05,false);
-  for(k=0;k<5;k++)spinner(k%2?40:W-40,1600+k*170+125,52,k%2?-.07:.07,false);
-  spinner(140,2450,170,.03,true);
-  spinner(420,2450,170,-.03,true);
+  var rnd=function(a,b) {
+  return a+Math.random()*(b-a)
+  }
+  ,dir=function() {
+  return Math.random()<.5?-1:1
+  };
+  pegs.forEach(function(p) {
+  p.x+=rnd(-5,5);p.y+=rnd(-4,4)
+  }
+  );
+  spinner(W/2+rnd(-50,50),rnd(990,1005),rnd(56,80),dir()*rnd(.04,.075),false);
+  for(k=0;k<5;k++)if(Math.random()<.85)spinner((k%2?40:W-40)+rnd(-6,6),1600+k*170+rnd(105,122),rnd(32,44),dir()*rnd(.05,.1),false);
+  spinner(rnd(110,170),rnd(2485,2505),rnd(130,160),dir()*rnd(.02,.045),Math.random()<.7);
+  spinner(rnd(370,410),rnd(2485,2505),rnd(130,160),dir()*rnd(.02,.045),Math.random()<.7);
   var gap=2*R+4,cols=Math.floor((W-40)/gap)-1,x0=(W-cols*gap)/2+R;
   shuffle(names.map(function(_,i) {
   return i
@@ -1534,7 +1544,7 @@
   }
   }
   for(a=0;a<ms.length;a++)if(!ms[a].done&&ms[a].y>FIN)finish(ms[a]);
-  if(state==='run'&&order.length&&steps/60-order[0].t>30) {
+  if(state==='run'&&order.length&&steps/60-order[0].t>45) {
   state='over';endT=steps/60
   }
   }
@@ -1609,7 +1619,36 @@
   var num=3-Math.floor(cnt/60);label(String(Math.max(1,num)),avail/2,CH/2+30,90+(1-(cnt%60)/60)*20,'#ffd166')
   }
   if(order.length)pill('🏆 '+order[0].name+' wins!',avail/2,34,20,'#ffd166');
-  if(state==='over')pill('Race over · press Restart to run it again',avail/2,CH-34,15,'#fff');
+  if(state==='over') {
+  if(!fl) {
+  var un=ms.filter(function(z) {
+  return !z.done
+  }
+  ).sort(function(a,b) {
+  return b.y-a.y
+  }
+  );
+  fl=order.concat(un)
+  }
+  var pt=58,ph=CH-pt-52,pw=avail-24,px0=12,nn=fl.length,cols=1,rows,rh,fz,ci,ri,e,cw;
+  for(cols=1;cols<=6;cols++) {
+  rows=Math.ceil(nn/cols);rh=(ph-46)/rows;cw=(pw-16)/cols;
+  if(cw<105||rh>=19)break
+  }
+  cols=Math.min(cols,6);rows=Math.ceil(nn/cols);rh=Math.min(26,(ph-46)/rows);cw=(pw-16)/cols;fz=Math.max(8,Math.min(15,rh-4));
+  gx.fillStyle='rgba(6,16,26,.92)';rr(px0,pt,pw,ph,14);gx.fill();gx.strokeStyle='#27465c';gx.lineWidth=2;gx.stroke();
+  gx.textAlign='center';gx.textBaseline='middle';gx.font='800 18px \"Bricolage Grotesque\",system-ui,sans-serif';gx.fillStyle='#ffd166';gx.fillText('🏁 Final positions',px0+pw/2,pt+22);
+  for(i=0;i<nn;i++) {
+  e=fl[i];ci=Math.floor(i/rows);ri=i%rows;
+  var ex=px0+8+ci*cw,ey=pt+46+ri*rh+rh/2,md=i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1)+'.';
+  gx.textAlign='left';gx.font='700 '+fz+'px \"Bricolage Grotesque\",system-ui,sans-serif';gx.fillStyle=i<3?'#ffd166':'#cfe3ee';
+  gx.fillText(md,ex+4,ey);
+  gx.beginPath();gx.arc(ex+fz*2.6,ey,fz*.32,0,P2);gx.fillStyle=e.col;gx.fill();
+  gx.fillStyle=i<3?'#fff':'#cfe3ee';gx.fillText(e.name+(e.done?' · '+e.t.toFixed(1)+'s':' · DNF'),ex+fz*3.4,ey,cw-fz*3.6)
+  }
+  gx.textBaseline='alphabetic';
+  pill('Race over · press Restart to run it again',avail/2,CH-24,14,'#fff')
+  }
   var t=state==='count'?0:(state==='over'?endT:steps/60);
   setHud('⏱ '+t.toFixed(1)+' s · '+ms.length+' marbles'+(leadName&&state!=='count'?' · leader: '+leadName:''))
   }
